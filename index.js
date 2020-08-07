@@ -8,8 +8,8 @@ server.use(express.json());  // teaches express how to read JSON from the body
 let lessons = [
   {
     id: 1, 
-    name: 'Introduction to HTTP APIs with Node and Express'
-  }
+    name: 'Introduction to HTTP APIs with Node and Express',
+  },
 ];
 
 server.get('/', (req, res) => {
@@ -28,7 +28,26 @@ server.post('/api/lessons', function(req, res) {
   lessons.push(lessonInformation);
   
   res.status(201).json(lessonInformation); 
-})
+});
+
+server.delete('/api/lessons/:id', function(req, res) {
+  const id = req.params.id;
+
+  // find the lesson on the array and remove it
+  lessons = lessons.filter(lesson => lesson.id != id);  // id is a string since the URL is a string 
+
+  res.status(200).json(lessons); 
+});
+
+// server.put('/api/lessons/:id', function(req, res) {
+//   const id = req.params.id; 
+
+//   const updatedLesson = req.body; 
+  
+//   lessons.push(updatedLesson);
+
+//   res.status(201).json(updatedLesson);
+// })
 
 server.listen(8000, () => console.log("\n== API is up ==\n")); 
 
