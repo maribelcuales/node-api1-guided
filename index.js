@@ -39,15 +39,18 @@ server.delete('/api/lessons/:id', function(req, res) {
   res.status(200).json(lessons); 
 });
 
-// server.put('/api/lessons/:id', function(req, res) {
-//   const id = req.params.id; 
-
-//   const updatedLesson = req.body; 
+server.put('/api/lessons/:id', function(req, res) {
+  const updateLesson = lessons.find(lesson => lesson.id == req.params.id); 
   
-//   lessons.push(updatedLesson);
+  if(!updateLesson){
+    res.status(404).json({ message: 'Lesson does not exist' });
+  } else {
+    // modify/update existing lesson
+    Object.assign(updateLesson, req.body);
 
-//   res.status(201).json(updatedLesson);
-// })
+    res.status(200).json(updateLesson); 
+  }
+});
 
 server.listen(8000, () => console.log("\n== API is up ==\n")); 
 
